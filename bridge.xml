@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>clock t;             
+chan turnRed;      
+chan turnGreen;      </declaration>
+	<template>
+		<name x="5" y="5">TL1</name>
+		<declaration>// Place local declarations here.
+</declaration>
+		<location id="id0" x="-272" y="-94">
+		</location>
+		<location id="id1" x="-535" y="-187" color="#ff0000">
+			<name x="-545" y="-221">Red1</name>
+			<label kind="invariant" x="-545" y="-170">t &lt;= 11</label>
+		</location>
+		<location id="id2" x="-272" y="-187" color="#ffff00">
+			<name x="-282" y="-221">Yellow1</name>
+			<label kind="invariant" x="-282" y="-170">t &lt;= 2</label>
+		</location>
+		<location id="id3" x="42" y="-187" color="#00ff00">
+			<name x="32" y="-221">Green1</name>
+			<label kind="invariant" x="32" y="-170">t &lt;= 8</label>
+		</location>
+		<init ref="id0"/>
+		<transition id="id4">
+			<source ref="id1"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-270" y="-297">t &gt;= 1</label>
+			<label kind="synchronisation" x="-270" y="-280">turnGreen?</label>
+			<label kind="assignment" x="-270" y="-263">t = 0</label>
+			<nail x="-25" y="-314"/>
+		</transition>
+		<transition id="id5">
+			<source ref="id2"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-517" y="-221">t &gt;= 1</label>
+			<label kind="synchronisation" x="-517" y="-204">turnRed!</label>
+			<label kind="assignment" x="-517" y="-187">t = 0</label>
+		</transition>
+		<transition id="id6">
+			<source ref="id3"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-254" y="-221">t &gt;= 4 &amp;&amp; t &lt;= 8</label>
+			<label kind="assignment" x="-254" y="-187">t = 0</label>
+		</transition>
+		<transition id="id7">
+			<source ref="id0"/>
+			<target ref="id3"/>
+			<label kind="assignment" x="-254" y="-140">t = 0</label>
+		</transition>
+	</template>
+	<template>
+		<name>TL2</name>
+		<location id="id8" x="-518" y="-128">
+		</location>
+		<location id="id9" x="-833" y="-263" color="#ff0000">
+			<name x="-843" y="-297">Red2</name>
+			<label kind="invariant" x="-843" y="-246">t &lt;= 11</label>
+		</location>
+		<location id="id10" x="-518" y="-263" color="#ffff00">
+			<name x="-528" y="-297">Yellow2</name>
+			<label kind="invariant" x="-528" y="-246">t &lt;= 2</label>
+		</location>
+		<location id="id11" x="-178" y="-263" color="#00ff00">
+			<name x="-188" y="-297">Green2</name>
+			<label kind="invariant" x="-188" y="-246">t &lt;= 8</label>
+		</location>
+		<init ref="id8"/>
+		<transition id="id12">
+			<source ref="id10"/>
+			<target ref="id9"/>
+			<label kind="guard" x="-815" y="-297">t &gt;= 1</label>
+			<label kind="synchronisation" x="-815" y="-280">turnGreen!</label>
+			<label kind="assignment" x="-815" y="-263">t = 0</label>
+		</transition>
+		<transition id="id13">
+			<source ref="id11"/>
+			<target ref="id10"/>
+			<label kind="guard" x="-500" y="-297">t &gt;= 4 &amp;&amp; t &lt;= 8</label>
+			<label kind="assignment" x="-500" y="-263">t = 0</label>
+		</transition>
+		<transition id="id14">
+			<source ref="id9"/>
+			<target ref="id11"/>
+			<label kind="guard" x="-815" y="-344">t &gt;= 1</label>
+			<label kind="synchronisation" x="-815" y="-327">turnRed?</label>
+			<label kind="assignment" x="-815" y="-310">t = 0</label>
+			<nail x="-518" y="-357"/>
+		</transition>
+		<transition id="id15">
+			<source ref="id8"/>
+			<target ref="id9"/>
+			<label kind="assignment" x="-815" y="-195">t = 0</label>
+		</transition>
+	</template>
+	<system>TrafficLight1 = TL1();
+TrafficLight2 = TL2();
+system TrafficLight1, TrafficLight2;
+</system>
+	<queries>
+		<query>
+			<formula/>
+			<comment/>
+		</query>
+		<query>
+			<formula>A[] !(TrafficLight1.Green1 &amp;&amp; TrafficLight2.Green2)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-12-01 22:08:26 -0500">
+			</result>
+		</query>
+		<query>
+			<formula>A[] not deadlock</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-12-01 22:08:26 -0500">
+			</result>
+		</query>
+		<query>
+			<formula>A[] !(TrafficLight1.Green1 &amp;&amp; TrafficLight2.Green2)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-12-01 22:08:26 -0500">
+			</result>
+		</query>
+		<query>
+			<formula>A[] not deadlock</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-12-01 22:08:26 -0500">
+			</result>
+		</query>
+		<query>
+			<formula>sup{TrafficLight1.Red1}: t</formula>
+			<comment/>
+			<result outcome="success" type="quantity" value="8" timestamp="2024-12-01 22:08:26 -0500">
+				<details>8</details>
+			</result>
+		</query>
+		<query>
+			<formula>sup{TrafficLight2.Red2}: t</formula>
+			<comment/>
+			<result outcome="success" type="quantity" value="11" timestamp="2024-12-01 22:08:26 -0500">
+				<details>11</details>
+			</result>
+		</query>
+		<query>
+			<formula>inf{TrafficLight1.Red1}: t</formula>
+			<comment/>
+			<result outcome="success" type="quantity" value="0" timestamp="2024-12-01 22:08:26 -0500">
+				<details>0</details>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (TrafficLight2.Red2 &amp;&amp; t &gt;= 1 &amp;&amp; t &lt;= 11)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-12-01 22:08:26 -0500">
+			</result>
+		</query>
+		<query>
+			<formula>A[] !(TrafficLight1.Green1 &amp;&amp; TrafficLight2.Green2)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-12-01 22:08:26 -0500">
+			</result>
+		</query>
+		<query>
+			<formula>A[] not deadlock</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-12-01 22:08:26 -0500">
+			</result>
+		</query>
+		<query>
+			<formula>sup{TrafficLight1.Red1}: t</formula>
+			<comment/>
+			<result outcome="success" type="quantity" value="8" timestamp="2024-12-01 22:08:26 -0500">
+				<details>8</details>
+			</result>
+		</query>
+		<query>
+			<formula>sup{TrafficLight2.Red2}: t</formula>
+			<comment/>
+			<result outcome="success" type="quantity" value="11" timestamp="2024-12-01 22:08:26 -0500">
+				<details>11</details>
+			</result>
+		</query>
+		<query>
+			<formula>inf{TrafficLight1.Red1}: t</formula>
+			<comment/>
+			<result outcome="success" type="quantity" value="0" timestamp="2024-12-01 22:08:26 -0500">
+				<details>0</details>
+			</result>
+		</query>
+		<query>
+			<formula>inf{TrafficLight2.Red2}: t</formula>
+			<comment/>
+			<result outcome="success" type="quantity" value="0" timestamp="2024-12-01 22:08:26 -0500">
+				<details>0</details>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (TrafficLight1.Red1 &amp;&amp; t &gt;= 1 &amp;&amp; t &lt;= 11)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-12-01 22:08:26 -0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (TrafficLight2.Red2 &amp;&amp; t &gt;= 1 &amp;&amp; t &lt;= 11)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-12-01 22:08:26 -0500">
+			</result>
+		</query>
+	</queries>
+</nta>
